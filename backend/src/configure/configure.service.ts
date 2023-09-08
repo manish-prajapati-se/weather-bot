@@ -14,14 +14,12 @@ export class ConfigureService {
     getBotConfiguration(){
       try {
         const configFile =  fs.readFileSync(this.absoluteFilePath, 'utf8');
-        console.log(configFile);
         this.configData = JSON.parse(configFile);
 
       } catch (error) {
 
         throw new Error('Unable to load configuration data');
       }
-      console.log('bot-config',this.configData);
       return this.configData;
     }
 

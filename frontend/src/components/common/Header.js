@@ -28,7 +28,7 @@ function Header(){
         <ul className="nav-list">
             {!isAuthenticated && <li className='nav-item'><Link to='/login'>Login</Link></li>}
             {isAuthenticated &&<li className="nav-item"><Link to='/configure'>Configure Bot</Link></li>}
-            {isAuthenticated &&<li className="nav-item"><Link to='/users'>Manage Users</Link></li>}
+            {isAuthenticated &&<li className="nav-item"><Link to='/subscribers'>Subscribers</Link></li>}
             {isAuthenticated && <li className="nav-item logout"><Link to='/login' className="logout" onClick={logoutHandler}>Logout</Link></li>}
         </ul>
         </nav>

@@ -1,0 +1,16 @@
+{
+  "5251618924": {
+    "firstName": "Manish",
+    "lastName": "Prajapati",
+    "profilePictureURL": "https://api.telegram.org/file/bot6362112385:AAHsUcH_UclN2nVEFsczr8414wvtgVxmQww/profile_photos/file_4.jpg",
+    "chatContext": 1,
+    "location": "Kanpur"
+  },
+  "6315667135": {
+    "firstName": "Manish",
+    "lastName": "Prajapati",
+    "profilePictureURL": "https://api.telegram.org/file/bot6362112385:AAHsUcH_UclN2nVEFsczr8414wvtgVxmQww/profile_photos/file_3.jpg",
+    "chatContext": 1,
+    "location": "London"
+  }
+}

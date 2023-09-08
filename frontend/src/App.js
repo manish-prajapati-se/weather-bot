@@ -5,20 +5,20 @@ import Header from './components/common/Header';
 import ConfigureBot from './pages/ConfigurePage';
 import { useEffect } from 'react';
 import ProtectedRoute from './components/utils/ProtectedRoute';
-import Users from './pages/UsersPage';
+import Subscribers from './pages/SubscribersPage';
 function App() {
-  useEffect(()=>{
-    if(localStorage.getItem('token')){
+  // useEffect(()=>{
+  //   if(localStorage.getItem('token')){
       
-    }
-  },[])
+  //   }
+  // },[])
   return (
     <Router>
       <Header/>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/configure" element={<ProtectedRoute><ConfigureBot/></ProtectedRoute>}/>
-        <Route path="/users" element={<ProtectedRoute><Users/></ProtectedRoute>}/>
+        <Route path="/subscribers" element={<ProtectedRoute><Subscribers/></ProtectedRoute>}/>
       </Routes>
     </Router>
   );
