@@ -4,6 +4,11 @@ import * as TelegramBot from 'node-telegram-bot-api';
 require('dotenv').config();
 import * as fs from 'fs';
 
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // You can add additional error handling or logging here.
+});
+
 @Injectable()
 export class TelegramService {
     private userDataPath='/home/manish/weather-bot/backend/src/telegram/user-data.json';
@@ -13,18 +18,6 @@ export class TelegramService {
     constructor(){
         const bot=new TelegramBot(process.env.TELEGRAM_TOKEN,{polling:true});
         
-
-        // bot.getUserProfilePhotos('6315667135')
-        // .then((response)=>{
-        //     console.log(response.photos);
-        // })
-        // bot.getFile('AgACAgUAAxUAAWT7AT1aKkKMV0kadW-T0IzwZWvVAAK2tjEbLMfZVx5l1djpuKBtAQADAgADYgADMAQ')
-        // .then((response)=>{
-        //     console.log(response)
-        // })
-        // bot.onText(/^\/start$/,(message)=>{
-        //     console.log(message);
-        // })
         
         bot.on('message',async (message)=>{
             // console.log(message.chat.id);
@@ -45,21 +38,7 @@ export class TelegramService {
         setInterval(()=>{
             console.log('hello');
             this.sendWeatherAlertToAll(bot);
-        }   ,3600000);
-        // bot.on('message',async (message)=>{
-        //     console.log(message);
-        //     const chatID=message.chat.id;
-        //     const messageText=message.text;
-            
-        //     if(messageText=='/start' || messageText=='/city'){
-        //         await bot.sendMessage(chatID,'Enter your city:');
-        //         const city='London';
-        //         const apiURL=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
-        //     }else if(messageText=='/frequency'){
-        //         await bot.sendMessage(chatID,'Enter your frequency');
-        //     }
-            
-        // })
+        }   ,600000);
         
     }
     async addUser(bot,userId){
@@ -111,7 +90,7 @@ export class TelegramService {
         const weatherData={
             location:weather.name,
             description: weather.weather[0].description,
-            temperature: weather.main.temp,
+            temperature: weather.main.temp/10,
             humidity: weather.main.humidity,
             pressure: weather.main.pressure,
             windSpeed: weather.wind.speed,
@@ -119,7 +98,19 @@ export class TelegramService {
             windDirection: weather.wind.deg
         }
         console.log(weatherData);
+        const configPath='/home/manish/weather-bot/backend/src/configure/bot-config.json';
+        const configFile=fs.readFileSync(configPath,'utf8');
+        const config=JSON.parse(configFile);
 
+        let customizedWeather="";
+        if(config["location"].isIncluded) customizedWeather+=`*Location*📍: ${weatherData.location}\n`
+        if(config["description"].isIncluded) customizedWeather+=`*Description*: ${weatherData.description}\n`
+        if(config["temperature"].isIncluded) customizedWeather+=`*Temperature* 🌡: ${weatherData.temperature}°C\n`
+        if(config["humidity"].isIncluded) customizedWeather+=`*Humidity* 🧖: ${weatherData.humidity}%\n`
+        if(config["pressure"].isIncluded) customizedWeather+=`*Pressure*: ${weatherData.pressure} hPa\n`
+        if(config["windSpeed"].isIncluded) customizedWeather+=`*Wind Speed* 🍃: ${weatherData.windSpeed} m/s\n`
+        if(config["visibility"].isIncluded) customizedWeather+=`*Visibility* 👁: ${weatherData.visibility} meters\n`
+        if(config["windDirection"].isIncluded) customizedWeather+=`*Wind Direction* 🍃: ${weatherData.windDirection} degrees\n`
 
         const weatherString = `
         *Location*📍: ${weatherData.location}
@@ -133,7 +124,7 @@ export class TelegramService {
         `;        
 
 
-        bot.sendMessage(chatId,weatherString,{ parse_mode: 'markdown' })
+        bot.sendMessage(chatId,customizedWeather,{ parse_mode: 'markdown' })
     }
 
     async sendWeatherAlertToAll(bot){
@@ -178,6 +169,7 @@ export class TelegramService {
         
         try{
             const response=await axios.get(apiURL);
+            console.log('1');
             users[chatId].location=location;
             fs.writeFileSync(this.userDataPath,JSON.stringify(users,null,2));
 
@@ -189,7 +181,8 @@ export class TelegramService {
             bot.sendMessage(chatId,"Weather alert has been set.");
 
         }catch(error){
-            bot.sendMessage(chatId,'Please enter a valid location!!')
+            console.log('error occured');
+            await bot.sendMessage(chatId,'Please enter a valid location!!')
         }
 
     }

@@ -17,18 +17,18 @@
   },
   "pressure": {
     "name": "Pressure",
-    "isIncluded": true
-  },
-  "windSpeed": {
-    "name": "WindSpeed",
     "isIncluded": false
   },
-  "rainfall": {
-    "name": "Rainfall",
+  "windSpeed": {
+    "name": "Wind Speed",
     "isIncluded": true
   },
-  "cloudiness": {
-    "name": "Cloudiness",
-    "isIncluded": true
+  "windDirection": {
+    "name": "Wind Direction",
+    "isIncluded": false
+  },
+  "visibility": {
+    "name": "Visibility",
+    "isIncluded": false
   }
 }
