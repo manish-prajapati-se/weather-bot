@@ -1,7 +1,7 @@
 {
   "location": {
     "name": "Location",
-    "isIncluded": false
+    "isIncluded": true
   },
   "description": {
     "name": "Description",
@@ -13,7 +13,7 @@
   },
   "humidity": {
     "name": "Humidity",
-    "isIncluded": true
+    "isIncluded": false
   },
   "pressure": {
     "name": "Pressure",
@@ -21,7 +21,7 @@
   },
   "windSpeed": {
     "name": "WindSpeed",
-    "isIncluded": true
+    "isIncluded": false
   },
   "rainfall": {
     "name": "Rainfall",

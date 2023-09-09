@@ -79,7 +79,7 @@ export class TelegramService {
 
     async getUserInfo(bot,userId){
         const data=await bot.getChat(userId);
-        const file=await bot.getFile(data.photo.big_file_id);
+        const file=await bot.getFile(data.photo.small_file_id);
         console.log(file);
         const userInfo={
             firstName:data.first_name,
